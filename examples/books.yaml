@@ -1,0 +1,25 @@
+# Scrapes https://books.toscrape.com - a sandbox bookstore built for practising scraping.
+name: Books to Scrape
+description: Book titles, prices, ratings and stock across the catalogue
+start_urls:
+  - https://books.toscrape.com/catalogue/page-1.html
+item: article.product_pod
+fields:
+  title: h3 a::attr(title)
+  price:
+    selector: p.price_color
+    transforms: [float]
+  rating:
+    selector: p.star-rating::attr(class)
+    pattern: star-rating (\w+)
+  in_stock: p.instock.availability
+  url:
+    selector: h3 a::attr(href)
+    transforms: [url]
+  image:
+    selector: img.thumbnail::attr(src)
+    transforms: [url]
+next_page: li.next > a
+settings:
+  max_pages: 3
+  concurrency: 2
