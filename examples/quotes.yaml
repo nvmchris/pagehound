@@ -1,0 +1,19 @@
+# Scrapes https://quotes.toscrape.com - a sandbox site built for practising scraping.
+name: Quotes to Scrape
+description: Famous quotes with authors and tags, following pagination
+start_urls:
+  - https://quotes.toscrape.com/
+item: div.quote
+fields:
+  text: span.text
+  author: small.author
+  author_url:
+    selector: a[href*="/author/"]::attr(href)
+    transforms: [url]
+  tags:
+    selector: a.tag
+    many: true
+next_page: li.next > a
+settings:
+  max_pages: 5
+  delay: 0.5
